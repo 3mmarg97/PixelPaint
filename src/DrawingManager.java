@@ -5,8 +5,18 @@ import java.awt.event.MouseListener;
 public class DrawingManager implements MouseListener {
 
     private static boolean isPressed;
-    private Tool tool;
+    private Tool tool = new Pen();
 
+    public void setTool(String tool) {
+        switch (tool){
+            case "Pen":
+                this.tool = new Pen();
+                break;
+            case "Brush":
+                this.tool = new Brush();
+                break;
+        }
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {

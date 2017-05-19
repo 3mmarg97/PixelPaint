@@ -1,16 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class DrawFrame extends JFrame {
+public class DrawFrame extends JFrame implements ActionListener{
 
     private JPanel toolsBox, drawPanel, cells[];
     private ButtonGroup toolsGroup, colorsGroup;
-    private JRadioButton toolPen, toolSquare, toolBrush;
+    private JRadioButton toolPen, toolBrush;
     private JRadioButton colorRed, colorGreen, colorBlue, colorBlack, colorWhite;
     private JButton saveBtn, openBtn;
     private JLabel separator;
-
-
+    private DrawingManager drawingManager;
     public DrawFrame(String name) {
         super(name);
 
@@ -36,14 +37,22 @@ public class DrawFrame extends JFrame {
         colorsGroup = new ButtonGroup();
 
         toolPen     = new JRadioButton("Pen");
-        toolSquare  = new JRadioButton("Square");
         toolBrush   = new JRadioButton("Brush");
+
+        toolPen.addActionListener(this);
+        toolBrush.addActionListener(this);
 
         colorRed    = new JRadioButton("Red");
         colorGreen  = new JRadioButton("Green");
         colorBlue   = new JRadioButton("Blue");
         colorBlack  = new JRadioButton("Black");
         colorWhite  = new JRadioButton("White");
+
+        colorRed.addActionListener(this);
+        colorGreen.addActionListener(this);
+        colorBlue.addActionListener(this);
+        colorBlack.addActionListener(this);
+        colorWhite.addActionListener(this);
 
         saveBtn     = new JButton("Save");
         openBtn     = new JButton("Open");
@@ -52,12 +61,10 @@ public class DrawFrame extends JFrame {
         colorBlack.setSelected(true);
 
         toolsGroup.add(toolPen);
-        toolsGroup.add(toolSquare);
         toolsGroup.add(toolBrush);
 
         toolsBox.add(toolPen);
         toolsBox.add(toolBrush);
-        toolsBox.add(toolSquare);
 
         toolsBox.add(separator);
 
@@ -86,16 +93,30 @@ public class DrawFrame extends JFrame {
         drawPanel.setLayout(new GridLayout(100, 100));
 
         drawPanel.setPreferredSize(new Dimension(500, 500));
-        DrawingManager drawingManager = new DrawingManager();
-        for (int y = 0; y < 100; y++) {
-            for (int x = 0; x < 100; x++) {
+        drawingManager = new DrawingManager();
+        for (int i = 0; i < 10000; i++) {
                 JPanel currCell = new JPanel();
-                cells[y*100+x] = currCell;
+                cells[i] = currCell;
                 currCell.addMouseListener(drawingManager);
                 currCell.setBackground(Color.WHITE);
                 drawPanel.add(currCell);
-            }
-        }
 
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == colorRed)
+            Tool.setColor(Color.RED);
+        else if (e.getSource() == colorGreen)
+            Tool.setColor(Color.GREEN);
+        else if (e.getSource() == colorBlue)
+            Tool.setColor(Color.BLUE);
+        else if (e.getSource() == colorBlack)
+            Tool.setColor(Color.BLACK);
+        else if (e.getSource() == colorWhite)
+            Tool.setColor(Color.WHITE);
+        else
+            drawingManager.setTool(((JRadioButton)e.getSource()).getText());
     }
 }
