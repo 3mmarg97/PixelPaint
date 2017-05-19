@@ -86,12 +86,12 @@ public class DrawFrame extends JFrame {
         drawPanel.setLayout(new GridLayout(100, 100));
 
         drawPanel.setPreferredSize(new Dimension(500, 500));
-
+        DrawingManager drawingManager = new DrawingManager();
         for (int y = 0; y < 100; y++) {
             for (int x = 0; x < 100; x++) {
                 JPanel currCell = new JPanel();
                 cells[y*100+x] = currCell;
-                currCell.addMouseListener(new DrawingManager());
+                currCell.addMouseListener(drawingManager);
                 currCell.setBackground(Color.WHITE);
                 drawPanel.add(currCell);
             }
