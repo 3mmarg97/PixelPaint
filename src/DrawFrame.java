@@ -12,6 +12,8 @@ public class DrawFrame extends JFrame implements ActionListener{
     private JButton saveBtn, openBtn;
     private JLabel separator;
     private DrawingManager drawingManager;
+    private FilesManagement file = new FilesManagement();
+
     public DrawFrame(String name) {
         super(name);
 
@@ -56,6 +58,9 @@ public class DrawFrame extends JFrame implements ActionListener{
 
         saveBtn     = new JButton("Save");
         openBtn     = new JButton("Open");
+
+        saveBtn.addActionListener(this);
+        openBtn.addActionListener(this);
 
         toolPen.setSelected(true);
         colorBlack.setSelected(true);
@@ -116,6 +121,10 @@ public class DrawFrame extends JFrame implements ActionListener{
             Tool.setColor(Color.BLACK);
         else if (e.getSource() == colorWhite)
             Tool.setColor(Color.WHITE);
+        else if (e.getSource() == saveBtn)
+            file.save(cells);
+        else if (e.getSource() == openBtn)
+            file.open(cells);
         else
             drawingManager.setTool(((JRadioButton)e.getSource()).getText());
     }
