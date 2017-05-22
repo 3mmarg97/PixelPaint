@@ -9,7 +9,7 @@ public class DrawFrame extends JFrame implements ActionListener{
     private ButtonGroup toolsGroup, colorsGroup;
     private JRadioButton toolPen, toolBrush;
     private JRadioButton colorRed, colorGreen, colorBlue, colorBlack, colorWhite;
-    private JButton saveBtn, openBtn;
+    private JButton clearBtn, saveBtn, openBtn;
     private JLabel separator;
     private DrawingManager drawingManager;
     private FilesManagement file = new FilesManagement();
@@ -56,9 +56,11 @@ public class DrawFrame extends JFrame implements ActionListener{
         colorBlack.addActionListener(this);
         colorWhite.addActionListener(this);
 
+        clearBtn    = new JButton("Clear");
         saveBtn     = new JButton("Save");
         openBtn     = new JButton("Open");
 
+        clearBtn.addActionListener(this);
         saveBtn.addActionListener(this);
         openBtn.addActionListener(this);
 
@@ -85,6 +87,7 @@ public class DrawFrame extends JFrame implements ActionListener{
         toolsBox.add(colorGreen);
         toolsBox.add(colorBlue);
 
+        toolsBox.add(clearBtn);
         toolsBox.add(saveBtn);
         toolsBox.add(openBtn);
 
@@ -125,6 +128,10 @@ public class DrawFrame extends JFrame implements ActionListener{
             file.save(cells);
         else if (e.getSource() == openBtn)
             file.open(cells);
+        else if (e.getSource() == clearBtn)
+            for (int i = 0; i < cells.length; i++) {
+                cells[i].setBackground(Color.WHITE);
+            }
         else
             drawingManager.setTool(((JRadioButton)e.getSource()).getText());
     }
