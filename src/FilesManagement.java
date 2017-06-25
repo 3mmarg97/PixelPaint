@@ -33,7 +33,6 @@ public class FilesManagement {
         catch(IOException e){
             System.err.println("Can not save file");
         }
-
     }
     public void open(JPanel cells[]){
         try{
